@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
+import Navbar from "./components/navbar";
 
-function App() {
+export default function App() {
   return (
-      <header className='font-semibold'>
-        Project-Board
-      </header>
+    <div>
+      <Navbar />
+    </div>
+    
   );
 }
-
-export default App;
