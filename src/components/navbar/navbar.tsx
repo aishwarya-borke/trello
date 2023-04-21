@@ -9,52 +9,34 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { AvatarGroup, Drawer } from "@mui/material";
+import { AvatarGroup } from "@mui/material";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import WorkSpace from "./workspace";
+import UpgradeView from "./upgradeView";
+import SortRoundedIcon from '@mui/icons-material/SortRounded';
+import PowerUps from "./powerups";
+import Automation from "./automation";
+import ShareDialogBox from "./shareDialogbox";
+import Filter from "./filter";
 
-const pages = ["Workspace visible", "Board"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
-interface anchor{
-    right: string,
-};
 
 export default function Navbar() {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-  const [stateUser, setStateUser] = React.useState({right: Boolean,});
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
   };
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  const toggleDrawer = (anchor: string, open: boolean) => (event: any) => {
-    if (
-      event &&
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
-      return;
-    }
-    setStateUser({ ...stateUser, [anchor]: open });
-  };
 
-    function list(anchor: string): React.ReactNode {
-        throw new Error("Function not implemented.");
-    }
 
   return (
-    <AppBar position="static">
+    <AppBar className="!bg-transparent !backdrop-blur" position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -89,18 +71,18 @@ export default function Navbar() {
           >
             Simple Project Board
           </Typography>
+              <div>
+                <StarBorderIcon />
+              </div>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {page}
-              </Button>
-            ))}
+           <WorkSpace />
+           <Button color="inherit" variant="contained" className="!text-black !mr-2"><SortRoundedIcon />Board</Button>
+           <UpgradeView />
           </Box>
 
+            <PowerUps />
+            <Automation />
+            <Filter />
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings" className="cursor-pointer">
               <AvatarGroup max={4}>
@@ -147,20 +129,10 @@ export default function Navbar() {
               ))}
             </Menu>
           </Box>
-            {/* <div>
-          {(["right"] as const).map((anchor) => (
-            <React.Fragment key={anchor}>
-              <Button onClick={toggleDrawer(anchor, true)}><MoreHorizOutlinedIcon/></Button>
-              <Drawer
-                anchor={anchor}
-                open={state.right}
-                onClose={toggleDrawer(anchor, false)}
-              >
-                {list(anchor)}
-              </Drawer>
-            </React.Fragment>
-          ))}
-            </div> */}
+          <ShareDialogBox />
+            <div>
+          <MoreHorizOutlinedIcon/>
+            </div>
         </Toolbar>
       </Container>
     </AppBar>
