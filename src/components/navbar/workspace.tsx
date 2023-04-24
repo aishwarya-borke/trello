@@ -1,12 +1,11 @@
-import * as React from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import PeopleOutlineRoundedIcon from '@mui/icons-material/PeopleOutlineRounded';
+import { useState } from 'react';
 
 export default function WorkSpace() {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -19,9 +18,9 @@ export default function WorkSpace() {
       <Button
         id="basic-button"
         color='inherit'
-        aria-controls={open ? 'basic-menu' : undefined}
+        aria-controls={anchorEl ? 'basic-menu' : undefined}
         aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
+        aria-expanded={anchorEl ? 'true' : undefined}
         onClick={handleClick}
       >
         <PeopleOutlineRoundedIcon />
@@ -30,7 +29,7 @@ export default function WorkSpace() {
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
-        open={open}
+        open={!!anchorEl}
         onClose={handleClose}
         MenuListProps={{
           'aria-labelledby': 'basic-button',

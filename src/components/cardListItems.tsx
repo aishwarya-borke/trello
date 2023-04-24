@@ -2,48 +2,69 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import AddIcon from "@mui/icons-material/Add";
-import { TextField } from '@mui/material';
+import { ListItem, TextField } from '@mui/material';
 import CloseIcon from "@mui/icons-material/Close";
+import { useState } from 'react';
 
 export default function WorkSpace() {
-  const [state, setState] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(state);
+  const [items, setItems] = useState<null | HTMLElement>(null);
   const AddItem = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setState(event.currentTarget);
+    setItems(event.currentTarget);
   };
   const CloseItem = () => {
-    setState(null);
+    setItems(null);
   };
 
+  const [text, setText] = useState('');
+  const handleChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
+    setText(event.target.value);
+  }
+
+  const [addcard, setAddCard] = useState(false);
+
   return (
-    <div>
+    <div className='m-4'>
       <Button
+      sx={{width: '288px', justifyContent: 'start', boxSizing: 'border-box'}}
       className='!bg-opacity-30 !text-white !bg-slate-50'
-        id="basic-button"
+        id="addtext-button"
         color='inherit'
-        aria-controls={open ? 'basic-menu' : undefined}
+        aria-controls={items ? 'item-text' : undefined}
         aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
+        aria-expanded={items ? 'true' : undefined}
         onClick={AddItem}
       >
         <AddIcon />
         Text another list
       </Button>
       <Menu
-        id="basic-menu"
-        anchorEl={state}
-        open={open}
-        onClose={CloseItem}
+      sx={{ position: 'absolute', top: '-36px'}}
+        id="item-text"
+        anchorEl={items}
+        open={!!items}
         MenuListProps={{
-          'aria-labelledby': 'basic-button',
+          'aria-labelledby': 'addtext-button',
         }}
       >
-        <TextField placeholder='Enter title list..' />
-        <div className='flex'>
-          <Button>Add Item</Button>
-          <div><CloseIcon  /></div>
+        <div className='max-w-none w-72'>
+        <TextField sx={{ width: '288px', paddingX: '8px'}} onChange={handleChange} value={text} placeholder='Enter title list..' />
+        
+        <div className='flex cursor-pointer items-center mt-2 ml-2'>
+          <Button variant='contained' 
+          sx={{paddingY: '4px', paddingX: '12px', marginRight: '8px'}}
+          onClick={() => setAddCard(!addcard)}
+          id='items-list'
+          aria-controls={addcard ? 'card-list' : undefined}
+          aria-haspopup="true"
+          aria-expanded={addcard ? 'true' : undefined}
+          >Add Item</Button>
+
+          <div onClick={CloseItem}><CloseIcon  /></div>
+        </div>
         </div>
       </Menu>
+
+      <ListItem />
     </div>
   );
 }

@@ -19,7 +19,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export interface DialogTitleProps {
+interface DialogTitleProps {
   id: string;
   children?: React.ReactNode;
   onClose: () => void;
