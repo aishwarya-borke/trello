@@ -1,11 +1,13 @@
-import React from 'react';
+import React from "react";
+import Navbar from "./components/navbar/navbar";
+import CardListItems from "./components/cardListItems";
 
-function App() {
+export default function App() {
   return (
-      <header className='font-semibold'>
-        Project-Board
-      </header>
+    <div>
+      <Navbar />
+      <CardListItems />
+    </div>
+    
   );
 }
-
-export default App;
