@@ -1,10 +1,17 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
+import * as React from "react";
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
 import AddIcon from "@mui/icons-material/Add";
-import { ListItem, TextField } from '@mui/material';
+import {  TextField } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { useState } from 'react';
+import { useState } from "react";
+import FormControlUnstyled from "@mui/base/FormControlUnstyled";
+import ListItem from "./ListItem";
+
+interface CardItems {
+  heading: string;
+  list: { content: string }[];
+}
 
 export default function WorkSpace() {
   const [items, setItems] = useState<null | HTMLElement>(null);
@@ -15,56 +22,85 @@ export default function WorkSpace() {
     setItems(null);
   };
 
-  const [text, setText] = useState('');
-  const handleChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
-    setText(event.target.value);
-  }
+  const [text, setText] = useState("");
+  const [card, setCard] = useState<any[]>([]);
 
-  const [addcard, setAddCard] = useState(false);
+  const handlClick = () => {
+    card.push({ heading: text, list: [{ content: "ededfc" }] });
+    setCard(card);
+
+  };
 
   return (
-    <div className='m-4'>
+    <div className="m-4 flex overflow-x-scroll">
+      {card.map((card) => (
+        <ListItem title={card.heading} />
+      ))}
+      <div>
       <Button
-      sx={{width: '288px', justifyContent: 'start', boxSizing: 'border-box'}}
-      className='!bg-opacity-30 !text-white !bg-slate-50'
+        sx={{
+          width: "288px",
+          justifyContent: "start",
+          boxSizing: "border-box",
+        }}
+        className="!bg-opacity-30 !text-white !bg-slate-50"
         id="addtext-button"
-        color='inherit'
-        aria-controls={items ? 'item-text' : undefined}
+        color="inherit"
+        aria-controls={items ? "item-text" : undefined}
         aria-haspopup="true"
-        aria-expanded={items ? 'true' : undefined}
+        aria-expanded={items ? "true" : undefined}
         onClick={AddItem}
       >
         <AddIcon />
         Text another list
       </Button>
+      </div>
+
+      <div>
       <Menu
-      sx={{ position: 'absolute', top: '-36px'}}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
         id="item-text"
         anchorEl={items}
         open={!!items}
         MenuListProps={{
-          'aria-labelledby': 'addtext-button',
+          "aria-labelledby": "addtext-button",
         }}
       >
-        <div className='max-w-none w-72'>
-        <TextField sx={{ width: '288px', paddingX: '8px'}} onChange={handleChange} value={text} placeholder='Enter title list..' />
-        
-        <div className='flex cursor-pointer items-center mt-2 ml-2'>
-          <Button variant='contained' 
-          sx={{paddingY: '4px', paddingX: '12px', marginRight: '8px'}}
-          onClick={() => setAddCard(!addcard)}
-          id='items-list'
-          aria-controls={addcard ? 'card-list' : undefined}
-          aria-haspopup="true"
-          aria-expanded={addcard ? 'true' : undefined}
-          >Add Item</Button>
+        <FormControlUnstyled className="max-w-none w-72">
+          <TextField
+            sx={{ width: "288px", paddingX: "8px" }}
+            onChange={(e) => setText(e.target.value)}
+            id="getText"
+            placeholder="Enter title list.."
+          />
 
-          <div onClick={CloseItem}><CloseIcon  /></div>
-        </div>
-        </div>
+          <Button
+            variant="contained"
+            sx={{
+              paddingY: "4px",
+              paddingX: "12px",
+              marginX: "8px",
+              marginTop: "8px",
+            }}
+            id="items-list"
+            onClick={handlClick}
+          >
+            Add Item
+          </Button>
+
+          <div onClick={CloseItem} className="inline cursor-pointer mt-2">
+            <CloseIcon />
+          </div>
+        </FormControlUnstyled>
       </Menu>
-
-      <ListItem />
+      </div>
     </div>
   );
 }
