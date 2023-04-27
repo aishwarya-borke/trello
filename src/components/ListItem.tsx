@@ -6,15 +6,28 @@ import { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import FormControlUnstyled from "@mui/base/FormControlUnstyled";
 import { TextField } from "@mui/material";
+import CardItem from "./carditem";
 
-interface props {
-  title: string;
+// interface props {
+//   title: string;
+// }
+
+interface cardbox {
+  listcard: {list: string}[];
 }
 
-export default function ListItem(props: props) {
+
+export default function ListItem(props: { title: string }) {
   const [handlecard, setHandleCard] = useState(false);
   const cardHandler = () => {
     setHandleCard(true);
+  }
+  const [cardlist, setCardList] = useState("");
+  const [listcd, setListCd] = useState<cardbox[]>([]);
+
+  const buttonClick = () => {
+    listcd.push({listcard: [{ list: cardlist }]})
+    setListCd(listcd);
   }
 
   return (
@@ -26,7 +39,7 @@ export default function ListItem(props: props) {
         </IconButton>
       </div>
 
-      <div className="bg-white rounded-lg p-1 drop-shadow-md border border-slate-300 ">dx</div>
+      {listcd.map((listcd) => (<CardItem listcard={listcd.listcard} />))}
 
       {!handlecard && <div className={`flex items-center justify-between`}>
         <Button
@@ -45,6 +58,7 @@ export default function ListItem(props: props) {
               sx={{ paddingX: "8px", width: '272px' }}
               id="getText"
               placeholder="Enter a title for this card..."
+              onChange={(e) => setCardList(e.target.value)}
             />
             <div className="flex justify-between mr-2">
               <div className="flex items-center">
@@ -57,6 +71,7 @@ export default function ListItem(props: props) {
                     marginTop: "8px",
                   }}
                   id="items-list"
+                  onClick={buttonClick}
                 >
                   Add card
                 </Button>
