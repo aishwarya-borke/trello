@@ -25,9 +25,11 @@ export default function WorkSpace() {
   const [text, setText] = useState("");
   const [card, setCard] = useState<CardItems[]>([]);
 
-  const handlClick = () => {
-    card.push({ heading: text });
-    setCard(card);
+  const handleClick = () => {
+    if (text.trim() !== '') { 
+      setCard([...card,{heading: text}]);
+      setText('');
+    }
   };
 
   return (
@@ -77,6 +79,7 @@ export default function WorkSpace() {
               sx={{ width: "288px", paddingX: "8px" }}
               onChange={(e) => setText(e.target.value)}
               id="getText"
+              value={text}
               placeholder="Enter title list.."
             />
 
@@ -89,7 +92,7 @@ export default function WorkSpace() {
                 marginTop: "8px",
               }}
               id="items-list"
-              onClick={handlClick}
+              onClick={handleClick}
             >
               Add Item
             </Button>

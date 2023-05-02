@@ -22,12 +22,14 @@ export default function ListItem(props: { title: string }) {
   const cardHandler = () => {
     setHandleCard(true);
   }
-  const [cardlist, setCardList] = useState("");
-  const [listcd, setListCd] = useState<cardbox[]>([]);
+  const [title, setTitle] = useState("");
+  const [titlelist, setTitleList] = useState<cardbox[]>([]);
 
   const buttonClick = () => {
-    listcd.push({listcard: [{ list: cardlist }]})
-    setListCd(listcd);
+    if(title.trim() !== '') {
+      setTitleList([...titlelist, {listcard: [{list: title}]}]);
+      setTitle('');
+    }
   }
 
   return (
@@ -39,7 +41,7 @@ export default function ListItem(props: { title: string }) {
         </IconButton>
       </div>
 
-      {listcd.map((listcd) => (<CardItem listcard={listcd.listcard} />))}
+      {titlelist.map((titlelist) => (<CardItem listcard={titlelist.listcard} />))}
 
       {!handlecard && <div className={`flex items-center justify-between`}>
         <Button
@@ -58,7 +60,8 @@ export default function ListItem(props: { title: string }) {
               sx={{ paddingX: "8px", width: '272px' }}
               id="getText"
               placeholder="Enter a title for this card..."
-              onChange={(e) => setCardList(e.target.value)}
+              onChange={(e) => setTitle(e.target.value)}
+              value={title}
             />
             <div className="flex justify-between mr-2">
               <div className="flex items-center">
