@@ -6,8 +6,7 @@ import { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import FormControlUnstyled from "@mui/base/FormControlUnstyled";
 import { TextField } from "@mui/material";
-import CardItem from "./carditem";
-import "../App.css";
+import ListItems from "./ListItems";
 
 // interface props {
 //   title: string;
@@ -17,7 +16,7 @@ interface cardbox {
   listcard: { list: string }[];
 }
 
-export default function ListItem(props: { title: string }) {
+export default function Cards(props: { title: string }) {
   const [handlecard, setHandleCard] = useState(false);
   const cardHandler = () => {
     setHandleCard(true);
@@ -26,7 +25,7 @@ export default function ListItem(props: { title: string }) {
   const [titlelist, setTitleList] = useState<cardbox[]>([]);
 
   const buttonClick = () => {
-    if (title.trim() !== "") {
+    if (title.trim().length !== 0) {
       setTitleList([...titlelist, { listcard: [{ list: title }] }]);
       setTitle("");
     }
@@ -54,7 +53,7 @@ export default function ListItem(props: { title: string }) {
         }}
       >
         {titlelist.map((titlelist) => (
-          <CardItem listcard={titlelist.listcard} />
+          <ListItems listcard={titlelist.listcard} />
         ))}
       </div>
 

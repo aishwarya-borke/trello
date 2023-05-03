@@ -6,14 +6,13 @@ import { TextField } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 import FormControlUnstyled from "@mui/base/FormControlUnstyled";
-import ListItem from "./ListItem";
+import Cards from "./CardsList";
 
 interface CardItems {
   heading: string;
 }
 
-
-export default function WorkSpace() {
+export default function AddListMain() {
   const [items, setItems] = useState<null | HTMLElement>(null);
   const AddItem = (event: React.MouseEvent<HTMLButtonElement>) => {
     setItems(event.currentTarget);
@@ -26,16 +25,17 @@ export default function WorkSpace() {
   const [card, setCard] = useState<CardItems[]>([]);
 
   const handleClick = () => {
-    if (text.length !== 0) { 
-      setCard([...card,{heading: text}]);
-      setText('');
+    if (text.length !== 0) {
+      setCard([...card, { heading: text }]);
+      setText("");
     }
   };
 
   return (
-    <div className="m-4 flex overflow-x-scroll">
+    <div     
+    className="m-4 flex overflow-x-scroll">
       {card.map((card) => (
-        <ListItem title={card.heading} />
+        <Cards title={card.heading} />
       ))}
       <div>
         <Button
@@ -53,7 +53,7 @@ export default function WorkSpace() {
           onClick={AddItem}
         >
           <AddIcon />
-          Text another list
+          Add another list
         </Button>
       </div>
 
