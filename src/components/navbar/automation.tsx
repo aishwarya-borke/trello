@@ -25,7 +25,7 @@ export default function Automation() {
         onClick={handleClick}
       >
         <BoltRoundedIcon />
-        Workspace Visible
+        automation
       </Button>
       <Menu
         id="basic-menu"
