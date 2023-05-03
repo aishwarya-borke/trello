@@ -7,33 +7,33 @@ import CloseIcon from "@mui/icons-material/Close";
 import FormControlUnstyled from "@mui/base/FormControlUnstyled";
 import { TextField } from "@mui/material";
 import CardItem from "./carditem";
+import "../App.css";
 
 // interface props {
 //   title: string;
 // }
 
 interface cardbox {
-  listcard: {list: string}[];
+  listcard: { list: string }[];
 }
-
 
 export default function ListItem(props: { title: string }) {
   const [handlecard, setHandleCard] = useState(false);
   const cardHandler = () => {
     setHandleCard(true);
-  }
+  };
   const [title, setTitle] = useState("");
   const [titlelist, setTitleList] = useState<cardbox[]>([]);
 
   const buttonClick = () => {
-    if(title.trim() !== '') {
-      setTitleList([...titlelist, {listcard: [{list: title}]}]);
-      setTitle('');
+    if (title.trim() !== "") {
+      setTitleList([...titlelist, { listcard: [{ list: title }] }]);
+      setTitle("");
     }
-  }
+  };
 
   return (
-    <div className="bg-white w-72 rounded-xl p-2 mx-2">
+    <div className="bg-white w-72 rounded-xl p-2 mx-2 h-full">
       <div className="flex items-center mx-2 justify-between">
         <textarea className="resize-none h-6">{props.title}</textarea>
         <IconButton aria-label="Example">
@@ -41,23 +41,38 @@ export default function ListItem(props: { title: string }) {
         </IconButton>
       </div>
 
-      {titlelist.map((titlelist) => (<CardItem listcard={titlelist.listcard} />))}
+      <div
+        onDragOver={(e: any) => {
+          e.preventDefault();
+        }}
+        onDrop={(e) => {
+          e.preventDefault();
+          const text = e.dataTransfer.getData("text/plain");
+          const draggable = document.getElementById(text) as HTMLElement;
+          e.currentTarget.appendChild(draggable);
+          draggable?.classList.remove("hide");
+        }}
+      >
+        {titlelist.map((titlelist) => (
+          <CardItem listcard={titlelist.listcard} />
+        ))}
+      </div>
 
-      {!handlecard && <div className={`flex items-center justify-between`}>
-        <Button
-          onClick={cardHandler}
-        >
-          <AddIcon />
-          Add a Card
-        </Button>
-        <AddCardIcon fontSize="small" className="mr-4" />
-      </div>}
+      {!handlecard && (
+        <div className={`flex items-center justify-between`}>
+          <Button onClick={cardHandler}>
+            <AddIcon />
+            Add a Card
+          </Button>
+          <AddCardIcon fontSize="small" className="mr-4" />
+        </div>
+      )}
 
       {handlecard && (
         <div>
           <FormControlUnstyled className="max-w-none">
             <TextField
-              sx={{ paddingX: "8px", width: '272px' }}
+              sx={{ paddingX: "8px", width: "272px" }}
               id="getText"
               placeholder="Enter a title for this card..."
               onChange={(e) => setTitle(e.target.value)}

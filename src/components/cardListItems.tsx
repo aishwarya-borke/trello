@@ -26,7 +26,7 @@ export default function WorkSpace() {
   const [card, setCard] = useState<CardItems[]>([]);
 
   const handleClick = () => {
-    if (text.trim() !== '') { 
+    if (text.length !== 0) { 
       setCard([...card,{heading: text}]);
       setText('');
     }
