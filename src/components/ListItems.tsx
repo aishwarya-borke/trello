@@ -1,15 +1,14 @@
-import "../App.css";
 interface cardprops {
   listcard: { list: string }[];
 }
 
 function handleDragStart(e: any, item: any) {
   e.dataTransfer.setData("text/plain", item.list);
-  setTimeout(() => {
-    e.target.classList.add("hide");
-  }, 0);
+  // setTimeout(() => {
+  //   e.target.classList.add("hide");
+  // }, 0);
 }
-const CardItem = ({ listcard }: cardprops) => {
+const ListItems = ({ listcard }: cardprops) => {
   return (
     <div>
       {listcard.map((itemx) => (
@@ -27,4 +26,4 @@ const CardItem = ({ listcard }: cardprops) => {
   );
 };
 
-export default CardItem;
+export default ListItems;

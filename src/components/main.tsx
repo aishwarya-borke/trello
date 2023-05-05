@@ -2,40 +2,50 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import AddIcon from "@mui/icons-material/Add";
-import { TextField } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
-import FormControlUnstyled from "@mui/base/FormControlUnstyled";
-import ListItem from "./ListItem";
+import Cards from "./CardsList";
 
 interface CardItems {
   heading: string;
 }
 
-
-export default function WorkSpace() {
+export default function AddListMain() {
   const [items, setItems] = useState<null | HTMLElement>(null);
   const AddItem = (event: React.MouseEvent<HTMLButtonElement>) => {
     setItems(event.currentTarget);
-  };
-  const CloseItem = () => {
-    setItems(null);
   };
 
   const [text, setText] = useState("");
   const [card, setCard] = useState<CardItems[]>([]);
 
   const handleClick = () => {
-    if (text.length !== 0) { 
-      setCard([...card,{heading: text}]);
-      setText('');
+    if (text.length !== 0) {
+      setCard([...card, { heading: text }]);
+      setText("");
     }
   };
 
+  const handleClose = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    setItems(null);
+    if (text.length !== 0) {
+      setCard([...card, { heading: text }]);
+      setText("");
+    };
+  }
+  const keyEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      setCard([...card, { heading: text }]);
+      setText("");
+    }
+  }
+
   return (
-    <div className="m-4 flex overflow-x-scroll">
+    <div     
+    className="m-4 flex overflow-x-scroll">
       {card.map((card) => (
-        <ListItem title={card.heading} />
+        <Cards key={card.heading} textarea={card.heading} />
       ))}
       <div>
         <Button
@@ -53,7 +63,7 @@ export default function WorkSpace() {
           onClick={AddItem}
         >
           <AddIcon />
-          Text another list
+          Add another list
         </Button>
       </div>
 
@@ -73,14 +83,16 @@ export default function WorkSpace() {
           MenuListProps={{
             "aria-labelledby": "addtext-button",
           }}
+          onClose={handleClose}
         >
-          <FormControlUnstyled className="max-w-none w-72">
+          <Box className="max-w-none w-72">
             <TextField
               sx={{ width: "288px", paddingX: "8px" }}
               onChange={(e) => setText(e.target.value)}
               id="getText"
               value={text}
               placeholder="Enter title list.."
+              onKeyPress={keyEnter}
             />
 
             <Button
@@ -97,10 +109,10 @@ export default function WorkSpace() {
               Add Item
             </Button>
 
-            <div onClick={CloseItem} className="inline cursor-pointer mt-2">
+            <div onClick={() => setItems(null)} className="inline cursor-pointer mt-2">
               <CloseIcon />
             </div>
-          </FormControlUnstyled>
+          </Box>
         </Menu>
       </div>
     </div>
